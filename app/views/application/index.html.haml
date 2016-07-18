@@ -1,0 +1,19 @@
+%html
+  %head
+    = csrf_meta_tags
+    %title= 'App History'
+    = stylesheet_link_tag 'history_list'
+    = javascript_include_tag 'jquery.min'
+    = javascript_include_tag 'cache_timing'
+  %body
+    %p
+      %h5
+        The sites you have visited in the past day or so are shown in
+        %font{ color: 'green' }green
+        ;
+        %font{ color: 'gray' }gray
+        indicates a site not found in your cache:
+    %div.list#log
+    %iframe.f#f{ name: 'f', height: 20, width: 200, style: 'opacity: 0.1', src: 'about:blank' }
+    %br
+    %div.status#status

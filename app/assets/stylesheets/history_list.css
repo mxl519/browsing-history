@@ -1,0 +1,32 @@
+body {
+  font-family: 'Georgia', 'Arial', 'Helvetica';
+  background-color: white;
+  color: black;
+}
+
+.visited {
+  color: green;
+  font-weight: bold;
+}
+
+.not_visited {
+  color: gray;
+}
+
+.category {
+  color: crimson;
+  text-decoration: underline;
+  font-weight: bold;
+  font-size: 120%;
+}
+
+.list {
+  font-size: 80%;
+}
+
+h5 { color: black; }
+
+.status {
+  font-size: 80%;
+  color: maroon;
+}
