@@ -101,9 +101,9 @@ function wait_for_noread() {
 
 /* Just a logging helper. */
 
-function log_text(str, type, cssclass) {
+function log_text(str, cssclass) {
 
-  var el = document.createElement(type);
+  var el = document.createElement('li');
   var tx = document.createTextNode(str);
 
   el.className = cssclass;
@@ -118,27 +118,12 @@ function log_text(str, type, cssclass) {
    select a new target, or wrap up the scan. */
 
 function maybe_test_next() {
-
   frame_ready = false;
 
   document.getElementById('f').src = 'about:blank';
 
-  
-
   if (target_off < targets.length) {
-
-    if (targets[target_off].category) {
-
-      log_text(targets[target_off].category + ':', 'p', 'category');
-      target_off++;
-
-    }
-
-
     if (confirmed_visited) {
-
-      log_text('Visited: ' + app_name + ' [' + cycles + ':' + attempt + ']', 'li', 'visited');
-
       $.ajax({
         url: "/history",
         type: "post",
@@ -148,34 +133,22 @@ function maybe_test_next() {
     }
 
     if (confirmed_visited || attempt == MAX_ATTEMPTS * targets[target_off].urls.length) {
-
-      if (!confirmed_visited)
-        log_text('Not visited: ' + app_name + ' [' + cycles + '+]', 'li', 'not_visited');
-
       confirmed_visited = false;
       target_off++;
       attempt = 0;
 
       maybe_test_next();
-
     } else {
-
       asset_url = targets[target_off].urls[attempt % targets[target_off].urls.length];
       app_name = targets[target_off].name;
 
       attempt++;
-
       perform_check();
-
     }
-
   } else {
-
     en = (new Date()).getTime();
-
     document.getElementById('status').innerHTML = 'Tested ' + urls + ' individual URLs in ' + (en - st) + ' ms.';
   }
-
 }
 
 function fetch_apps_and_examine() {
@@ -193,9 +166,19 @@ function display_history() {
   $.ajax({
     url: "/apps_users",
     success: function(response) {
-      console.log(response)
+      var targetLength = targets.length;
+      for (var i = 0; i < targetLength; i++) {
+        appName = targets[i].name
+        if (response.hasOwnProperty(appName))
+          log_text('Visited: ' + appName + ' (last confirmed at ' + response[appName] + ')', 'visited');
+      }
+      for (var i = 0; i < targetLength; i++) {
+        appName = targets[i].name
+        if (!response.hasOwnProperty(appName))
+          log_text('Not visited: ' + property, 'not_visited');
+      }
     }
-  })
+  });
 }
 
 window.onload = function start_stuff() {
