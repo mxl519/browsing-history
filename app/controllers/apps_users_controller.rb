@@ -12,4 +12,9 @@ class AppsUsersController < ActionController::Base
     .where(user_id: current_user.id).where('apps_users.created_at > ?', 1.day.ago)
     render status: 200, json: apps.inject({}) { |apps, app| apps[app.name] = app.last_visited; apps } 
   end
+
+  def destroy
+    AppsUsers.where(user_id: current_user.id).delete_all
+    render status: 204, nothing: true
+  end
 end

@@ -66,6 +66,10 @@ function wait_for_read2() {
   }
 }
 
+function set_authenticity_token(xhr) {
+  xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))
+}
+
 /* Navigate the frame to the target URL. */
 function navigate_to_target() {
   cycles = 0;
@@ -121,7 +125,7 @@ function maybe_test_next() {
         url: "/history",
         type: "post",
         data: { app_name },
-        beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))}
+        beforeSend: set_authenticity_token
       });
     }
 
@@ -175,6 +179,22 @@ function display_history() {
           log_text('Not visited: ' + appName, 'not_visited');
       }
     }
+  });
+}
+
+/* Allow user to destroy history of apps
+   (obviously for debugging purposes) */
+function reset_data() {
+  $.ajax({
+    url: "/clear",
+    type: "delete",
+    success: function(response) {
+      alert('History cleared!')
+    },
+    error: function(response) {
+      alert('There was an error clearing the history!')
+    },
+    beforeSend: set_authenticity_token
   });
 }
 

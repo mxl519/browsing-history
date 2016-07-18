@@ -7,4 +7,5 @@ Rails.application.routes.draw do
 
   post '/history', to: 'apps_users#create'
   get '/apps_users', to: 'apps_users#index'
+  delete '/clear', to: 'apps_users#destroy'
 end
