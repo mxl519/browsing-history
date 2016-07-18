@@ -4,7 +4,7 @@ var targets = [];
  * CONFIGURABLE SETTINGS *
  *************************/
 
-var TIME_LIMIT = 5; /* used to be 2 */ 
+var TIME_LIMIT = 3;
 var MAX_ATTEMPTS = 1;
 
 /**********************
@@ -52,7 +52,6 @@ function wait_for_read1() {
   }
 }
 
-
 function wait_for_read2() {
   if (wait_cycles++ > 100) {
     alert('Something went wrong, sorry.');
@@ -67,8 +66,6 @@ function wait_for_read2() {
   }
 }
 
-
-
 /* Navigate the frame to the target URL. */
 function navigate_to_target() {
   cycles = 0;
@@ -77,7 +74,6 @@ function navigate_to_target() {
   urls++;
   document.getElementById("f").src = asset_url;
 }
-
 
 /* The browser is now trying to load the destination URL. Let's see if
    we lose SOP access before we hit TIME_LIMIT. If yes, we have a cache
@@ -98,7 +94,6 @@ function wait_for_noread() {
   }
 }
 
-
 /* Just a logging helper. */
 
 function log_text(str, cssclass) {
@@ -110,9 +105,7 @@ function log_text(str, cssclass) {
   el.appendChild(tx);
 
   log_area.appendChild(el);
-
 }
-
 
 /* Decides what to do next. May schedule another attempt for the same target,
    select a new target, or wrap up the scan. */
@@ -151,6 +144,8 @@ function maybe_test_next() {
   }
 }
 
+/* Start by pulling eligible apps from server,
+   then begin testing all apps */
 function fetch_apps_and_examine() {
   $.ajax({
     url: "/apps",
@@ -162,6 +157,8 @@ function fetch_apps_and_examine() {
   });  
 }
 
+/* Finish by fetching user's history,
+   then displaying them in the logs */
 function display_history() {
   $.ajax({
     url: "/apps_users",
@@ -175,7 +172,7 @@ function display_history() {
       for (var i = 0; i < targetLength; i++) {
         appName = targets[i].name
         if (!response.hasOwnProperty(appName))
-          log_text('Not visited: ' + property, 'not_visited');
+          log_text('Not visited: ' + appName, 'not_visited');
       }
     }
   });

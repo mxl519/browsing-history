@@ -25,6 +25,7 @@ ActiveRecord::Schema.define(version: 20160718093709) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["app_id"], name: "index_apps_users_on_app_id"
+    t.index ["created_at"], name: "index_apps_users_on_created_at"
     t.index ["user_id"], name: "index_apps_users_on_user_id"
   end
 

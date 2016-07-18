@@ -3,6 +3,6 @@ class AppController < ActionController::Base
   before_action :authenticate_user!
 
   def index
-    render json: App.first(2).inject([]) { |apps, app| apps << { 'name' => app.name, 'urls' => app.assets }; apps }
+    render json: App.inject([]) { |apps, app| apps << { 'name' => app.name, 'urls' => app.assets }; apps }
   end
 end

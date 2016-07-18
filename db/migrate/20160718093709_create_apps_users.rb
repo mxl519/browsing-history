@@ -6,5 +6,7 @@ class CreateAppsUsers < ActiveRecord::Migration[5.0]
 
       t.timestamps
     end
+
+    add_index :apps_users, :created_at
   end
 end
