@@ -4,17 +4,15 @@ class AppsUsersController < ActionController::Base
 
   def create
     AppsUsers.create!(user: current_user, app: App.find_by_name(params['app_name']))
-    render status: 201, nothing: true
+    head 201
   end
 
   def index
-    apps = AppsUsers.joins(:app).select('apps.name', 'MAX(apps_users.created_at) AS last_visited').group(:name)
-    .where(user_id: current_user.id).where('apps_users.created_at > ?', 1.day.ago)
-    render status: 200, json: apps.inject({}) { |apps, app| apps[app.name] = app.last_visited; apps } 
+    render status: 200, json: current_user.recent_app_history
   end
 
   def destroy
     AppsUsers.where(user_id: current_user.id).delete_all
-    render status: 204, nothing: true
+    head 204
   end
 end

@@ -26,6 +26,7 @@ group :development, :test do
   gem 'byebug', platform: :mri
   # Tests with rspec
   gem 'rspec-rails', '~> 3.4'
+  gem 'shoulda-matchers'
   # Mock objects
   gem 'factory_girl_rails', '~> 4.0'
 end

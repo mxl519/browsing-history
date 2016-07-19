@@ -4,7 +4,7 @@ var targets = [];
  * CONFIGURABLE SETTINGS *
  *************************/
 
-var TIME_LIMIT = 3;
+var TIME_LIMIT = 5;
 var MAX_ATTEMPTS = 1;
 
 /**********************
