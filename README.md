@@ -1,24 +1,22 @@
-# README
+# Rapid history extraction through non-destructive cache timing
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+From http://lcamtuf.coredump.cx/cachetime/chrome.html, this app determines whether a website has been visited recently by attempting to load static resources and determining whether the response time was fast enough to indicate a cache fetch as opposed to a network GET.
 
-Things you may want to cover:
+## Setup
 
-* Ruby version
+- `bundle install`
+- Run migrations
+- `rake db:seed` to prepopulate apps table from `db/seeds/apps.yml`
+- Start server with `rails server -p 3000`
+- Navigate browser to `localhost:3000`
 
-* System dependencies
+## Tests
 
-* Configuration
+- `rake db:test:prepare`
+- `rspec spec`
 
-* Database creation
+## Notes
 
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+- The javascript mechanism is admittedly wonky, and configurations can be tinkered with in `cache_timing.js` to balance false negatives versus false positives, but there's not a universal setting that will work very reliably across different browsers and machines.
+- Assets for caching are determined arbitrarily, by manually loading webpages several times and inspecting element to note what static assets are loaded in the most time, because they have more distinction between cache fetch time and network GET time.
+- No tests for front-end :(
